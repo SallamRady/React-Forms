@@ -1,21 +1,17 @@
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+let renderCounter = 0;
+
 export default function YoutubeForm() {
+ //   const [name, setName] = useState("");
   const {
     register, //this method handle set/get value from input controll its just take and field name.
   } = useForm();
 
   //note and learn what register can do
-  let { name, ref, onBlur, onChange } = register("username");
+  //let { name, ref, onBlur, onChange } = register("username");
   /**
    <TextField
         label="User Name"
@@ -39,10 +35,13 @@ export default function YoutubeForm() {
       />
 
    */
+
+  renderCounter++;
+
   return (
     <Stack spacing={2} component={"form"} width={320}>
       <Typography variant="subtitle1" fontWeight={750} color={"primary"}>
-        Youtube Form
+        Youtube Form (render count : {renderCounter / 2})
       </Typography>
       <TextField
         label="User Name"
@@ -50,7 +49,8 @@ export default function YoutubeForm() {
         variant="outlined"
         size="small"
         id="username"
-        {...register("userName")}
+        {...register("userName")} //component dont render on any change useForm is a great for performance
+        // onChange={(e) => setName(e.target.value)} component will render on any change
       />
       <TextField
         label="User Email"
