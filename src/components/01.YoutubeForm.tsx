@@ -4,11 +4,22 @@ import { useForm } from "react-hook-form";
 
 let renderCounter = 0;
 
+type FormType = {
+  userName: string;
+  email: string;
+  channelName: string;
+};
+
 export default function YoutubeForm() {
- //   const [name, setName] = useState("");
+  //const [name, setName] = useState("");
   const {
     register, //this method handle set/get value from input controll its just take and field name.
-  } = useForm();
+    handleSubmit, //used to submit form
+  } = useForm<FormType>();
+
+  const handleSubmitForm = (data: FormType) => {
+    console.log("Submitted Data::", data);
+  };
 
   //note and learn what register can do
   //let { name, ref, onBlur, onChange } = register("username");
@@ -39,7 +50,12 @@ export default function YoutubeForm() {
   renderCounter++;
 
   return (
-    <Stack spacing={2} component={"form"} width={320}>
+    <Stack
+      spacing={2}
+      component={"form"}
+      width={320}
+      onSubmit={handleSubmit(handleSubmitForm)}
+    >
       <Typography variant="subtitle1" fontWeight={750} color={"primary"}>
         Youtube Form (render count : {renderCounter / 2})
       </Typography>
