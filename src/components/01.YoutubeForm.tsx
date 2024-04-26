@@ -18,6 +18,7 @@ type FormType = {
     facebook: string;
     linkedIn: string;
   };
+  phoneNumbers: string[];
 };
 
 export default function YoutubeForm() {
@@ -35,6 +36,7 @@ export default function YoutubeForm() {
         facebook: "Sallam Rady Ramadan",
         linkedIn: "SallamRady",
       },
+      phoneNumbers: ["", ""],
     },
     // defaultValues: async () => {
     //   let response = await fetch(
@@ -175,6 +177,22 @@ export default function YoutubeForm() {
         variant="outlined"
         size="small"
         {...register("social.linkedIn")}
+      />
+
+      <TextField
+        label="Primary Phone Number"
+        aria-label="primary-number"
+        variant="outlined"
+        size="small"
+        {...register("phoneNumbers.0")}
+      />
+
+      <TextField
+        label="Secondary Phone Number"
+        aria-label="secondary-number"
+        variant="outlined"
+        size="small"
+        {...register("phoneNumbers.1")}
       />
 
       <Button type="submit" variant="contained" size="small" sx={{ my: 2 }}>
