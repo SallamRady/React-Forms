@@ -14,6 +14,10 @@ type FormType = {
   userName: string;
   email: string;
   channelName: string;
+  social: {
+    facebook: string;
+    linkedIn: string;
+  };
 };
 
 export default function YoutubeForm() {
@@ -23,22 +27,26 @@ export default function YoutubeForm() {
     handleSubmit, //used to submit form
     formState, //object contains alot of props that help to manage the state of form
   } = useForm<FormType>({
-    // defaultValues: {
-    //   userName: "Sallam Rady",
-    //   email: "sallamrady@gmail.com",
-    //   channelNamer: "Batman",
-    // },
-    defaultValues: async () => {
-      let response = await fetch(
-        "https://jsonplaceholder.typicode.com/users/1"
-      );
-      let data = await response.json();
-      return {
-        userName: data.username,
-        email: data.email,
-        channelName: "",
-      };
+    defaultValues: {
+      userName: "Sallam Rady",
+      email: "sallamrady@gmail.com",
+      channelName: "Batman",
+      social: {
+        facebook: "Sallam Rady Ramadan",
+        linkedIn: "SallamRady",
+      },
     },
+    // defaultValues: async () => {
+    //   let response = await fetch(
+    //     "https://jsonplaceholder.typicode.com/users/1"
+    //   );
+    //   let data = await response.json();
+    //   return {
+    //     userName: data.username,
+    //     email: data.email,
+    //     channelName: "",
+    //   };
+    // },
   });
   let { errors } = formState;
 
@@ -152,6 +160,23 @@ export default function YoutubeForm() {
       <FormHelperText sx={{ color: "red" }}>
         {errors.channelName?.message}
       </FormHelperText>
+
+      <TextField
+        label="Facebook Handle"
+        aria-label="facebook-handle"
+        variant="outlined"
+        size="small"
+        {...register("social.facebook")}
+      />
+
+      <TextField
+        label="LinkedIn Handle"
+        aria-label="linkedin-handle"
+        variant="outlined"
+        size="small"
+        {...register("social.linkedIn")}
+      />
+
       <Button type="submit" variant="contained" size="small" sx={{ my: 2 }}>
         Submit
       </Button>
