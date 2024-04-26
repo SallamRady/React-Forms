@@ -22,7 +22,24 @@ export default function YoutubeForm() {
     register, //this method handle set/get value from input controll its just take and field name.
     handleSubmit, //used to submit form
     formState, //object contains alot of props that help to manage the state of form
-  } = useForm<FormType>();
+  } = useForm<FormType>({
+    // defaultValues: {
+    //   userName: "Sallam Rady",
+    //   email: "sallamrady@gmail.com",
+    //   channelNamer: "Batman",
+    // },
+    defaultValues: async () => {
+      let response = await fetch(
+        "https://jsonplaceholder.typicode.com/users/1"
+      );
+      let data = await response.json();
+      return {
+        userName: data.username,
+        email: data.email,
+        channelName: "",
+      };
+    },
+  });
   let { errors } = formState;
 
   const handleSubmitForm = (data: FormType) => {
