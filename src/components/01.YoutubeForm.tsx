@@ -98,6 +98,24 @@ export default function YoutubeForm() {
               /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             message: "Invalid input email",
           },
+          //   validate: (fieldValue) => {
+          //     if (fieldValue == "admin@admin.com")
+          //       return "Please enter diffrent email.";
+
+          //     return true;
+          //   },
+          validate: {
+            notAdmin: (fieldValue) => {
+              if (fieldValue == "admin@admin.com")
+                return "Please enter diffrent email.";
+
+              return true;
+            },
+            notBlockedList: (fieldValue) => {
+              if (fieldValue.endsWith("baddomain.com")) return "Bad Domain.";
+              return true;
+            },
+          },
         })}
         error={Boolean(errors.email?.message)}
       />
