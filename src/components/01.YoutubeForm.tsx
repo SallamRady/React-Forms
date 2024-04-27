@@ -57,7 +57,14 @@ export default function YoutubeForm() {
     //   };
     // },
   });
-  let { errors, touchedFields, dirtyFields } = formState;
+  let {
+    errors,
+    touchedFields,
+    dirtyFields,
+    isSubmitting,
+    isSubmitSuccessful,
+    submitCount,
+  } = formState;
 
   // console.log(touchedFields, dirtyFields);
 
@@ -67,7 +74,7 @@ export default function YoutubeForm() {
   });
 
   const handleSubmitForm = (data: FormType) => {
-    console.log("Submitted Data::", data);
+    setTimeout(() => console.log("Submitted Data::", data), 500);
   };
 
   useEffect(() => {
@@ -274,7 +281,13 @@ export default function YoutubeForm() {
         Add New Dynamic Phone Field
       </Button>
 
-      <Button type="submit" variant="contained" size="small" sx={{ my: 2 }}>
+      <Button
+        type="submit"
+        disabled={isSubmitting}
+        variant="contained"
+        size="small"
+        sx={{ my: 2 }}
+      >
         Submit
       </Button>
 
