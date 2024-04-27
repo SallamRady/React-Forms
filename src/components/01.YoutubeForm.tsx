@@ -5,8 +5,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 
 let renderCounter = 0;
 
@@ -19,6 +19,8 @@ type FormType = {
     linkedIn: string;
   };
   phoneNumbers: string[];
+  phones: { number: string }[];
+  age: number;
 };
 
 export default function YoutubeForm() {
@@ -27,6 +29,9 @@ export default function YoutubeForm() {
     register, //this method handle set/get value from input controll its just take and field name.
     handleSubmit, //used to submit form
     formState, //object contains alot of props that help to manage the state of form
+    control, //for used in useFieldArray for dynamic field
+    watch, //mwthod used for watch changes in fields
+    getValues,//method used to get values of fom field/fields
   } = useForm<FormType>({
     defaultValues: {
       userName: "Sallam Rady",
@@ -37,6 +42,8 @@ export default function YoutubeForm() {
         linkedIn: "SallamRady",
       },
       phoneNumbers: ["", ""],
+      phones: [{ number: "" }],
+      age: 0,
     },
     // defaultValues: async () => {
     //   let response = await fetch(
@@ -52,9 +59,24 @@ export default function YoutubeForm() {
   });
   let { errors } = formState;
 
+  const { fields, remove, append } = useFieldArray({
+    name: "phones",
+    control,
+  });
+
   const handleSubmitForm = (data: FormType) => {
     console.log("Submitted Data::", data);
   };
+
+  useEffect(() => {
+    let watchSubscraption = watch((val) => {
+      console.log(val);
+    });
+    return () => watchSubscraption.unsubscribe();
+  }, [watch]);
+
+  
+  // console.log("UseName::", watch("userName"));
 
   //note and learn what register can do
   //let { name, ref, onBlur, onChange } = register("username");
@@ -164,6 +186,21 @@ export default function YoutubeForm() {
       </FormHelperText>
 
       <TextField
+        label="User Age"
+        aria-label="user-age"
+        variant="outlined"
+        size="small"
+        {...register("age", {
+          valueAsNumber: true,
+          required: "Age is Required",
+        })}
+        error={Boolean(errors.age?.message)}
+      />
+      <FormHelperText sx={{ color: "red" }}>
+        {errors.age?.message}
+      </FormHelperText>
+
+      <TextField
         label="Facebook Handle"
         aria-label="facebook-handle"
         variant="outlined"
@@ -194,6 +231,43 @@ export default function YoutubeForm() {
         size="small"
         {...register("phoneNumbers.1")}
       />
+
+      {/* dynamic filed phones */}
+      {fields.map((field, index) => {
+        return (
+          <Stack
+            key={field.id}
+            spacing={2}
+            border={"1px solid"}
+            p={2}
+            borderRadius={3}
+          >
+            <TextField
+              label={`DF:Phone (${index + 1})`}
+              aria-label="DF-phone-number"
+              variant="outlined"
+              size="small"
+              {...register(`phones.${index}.number` as const)}
+            />
+            <Button
+              color="error"
+              variant="contained"
+              type="button"
+              onClick={() => remove(index)}
+            >
+              Remove
+            </Button>
+          </Stack>
+        );
+      })}
+      <Button
+        color="warning"
+        variant="outlined"
+        type="button"
+        onClick={() => append({ number: "" })}
+      >
+        Add New Dynamic Phone Field
+      </Button>
 
       <Button type="submit" variant="contained" size="small" sx={{ my: 2 }}>
         Submit
