@@ -31,7 +31,7 @@ export default function YoutubeForm() {
     formState, //object contains alot of props that help to manage the state of form
     control, //for used in useFieldArray for dynamic field
     watch, //mwthod used for watch changes in fields
-    getValues,//method used to get values of fom field/fields
+    getValues, //method used to get values of fom field/fields
   } = useForm<FormType>({
     defaultValues: {
       userName: "Sallam Rady",
@@ -75,7 +75,10 @@ export default function YoutubeForm() {
     return () => watchSubscraption.unsubscribe();
   }, [watch]);
 
-  
+  const handleGetValues = () => {
+    console.log("Form Values user name ::", getValues("userName"));
+    console.log("Form Values form ::", getValues());
+  };
   // console.log("UseName::", watch("userName"));
 
   //note and learn what register can do
@@ -264,13 +267,16 @@ export default function YoutubeForm() {
         color="warning"
         variant="outlined"
         type="button"
-        onClick={() => append({ number: "" })}
-      >
+        onClick={() => append({ number: "" })}>
         Add New Dynamic Phone Field
       </Button>
 
       <Button type="submit" variant="contained" size="small" sx={{ my: 2 }}>
         Submit
+      </Button>
+
+      <Button type="button" onClick={() => handleGetValues()}>
+        Get Values
       </Button>
     </Stack>
   );
