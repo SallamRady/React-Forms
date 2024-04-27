@@ -32,6 +32,7 @@ export default function YoutubeForm() {
     control, //for used in useFieldArray for dynamic field
     watch, //mwthod used for watch changes in fields
     getValues, //method used to get values of fom field/fields
+    reset, // function used to reset form fields values to default values
   } = useForm<FormType>({
     defaultValues: {
       userName: "Sallam Rady",
