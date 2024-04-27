@@ -57,7 +57,9 @@ export default function YoutubeForm() {
     //   };
     // },
   });
-  let { errors } = formState;
+  let { errors, touchedFields, dirtyFields } = formState;
+
+  // console.log(touchedFields, dirtyFields);
 
   const { fields, remove, append } = useFieldArray({
     name: "phones",
@@ -267,7 +269,8 @@ export default function YoutubeForm() {
         color="warning"
         variant="outlined"
         type="button"
-        onClick={() => append({ number: "" })}>
+        onClick={() => append({ number: "" })}
+      >
         Add New Dynamic Phone Field
       </Button>
 
