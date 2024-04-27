@@ -177,6 +177,14 @@ export default function YoutubeForm() {
               if (fieldValue.endsWith("baddomain.com")) return "Bad Domain.";
               return true;
             },
+            emailExist: async (fieldValue) => {
+              let response = await fetch(
+                `https://jsonplaceholder.typicode.com/users?email=${fieldValue}`
+              );
+              let data = await response.json();
+
+              return data.length == 0 || "Email is already exist.";
+            },
           },
         })}
         error={Boolean(errors.email?.message)}
