@@ -46,6 +46,7 @@ export default function YoutubeForm() {
       phones: [{ number: "" }],
       age: 0,
     },
+    mode: "onSubmit",
     // defaultValues: async () => {
     //   let response = await fetch(
     //     "https://jsonplaceholder.typicode.com/users/1"
